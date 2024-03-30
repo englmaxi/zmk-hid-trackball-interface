@@ -1,0 +1,13 @@
+# Copyright (c) 2024 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+DT_COMPAT_ZMK_HID_TRACKBALL_INTERFACE := zmk,hid-trackball-interface
+
+config ZMK_HID_TRACKBALL_INTERFACE
+    bool "Interface with trackballs that send and listen to hid indicator changes."
+    default $(dt_compat_enabled,$(DT_COMPAT_ZMK_HID_TRACKBALL_INTERFACE)) 
+    imply ZMK_HID_INDICATORS
+
+if ZMK_HID_TRACKBALL_INTERFACE
+
+endif #ZMK_HID_TRACKBALL_INTERFACE

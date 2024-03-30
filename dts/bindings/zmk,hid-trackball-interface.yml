@@ -1,0 +1,24 @@
+# Copyright (c) 2024 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  Interface with trackballs that send and listen to hid indicator changes. 
+
+compatible: "zmk,hid-trackball-interface"
+
+properties:
+  tog-scroll-bindings:
+    type: phandles
+    required: true
+  cyc-dpi-bindings:
+    type: phandles
+    required: true
+  scroll-layers:
+    type: array
+    default: []
+  snipe-layers:
+    type: array
+    default: []
+  automouse-layer:
+    type: int
+    default: -1
