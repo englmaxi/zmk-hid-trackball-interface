@@ -1,0 +1,58 @@
+name: Generate Ploopy Nano Firmware
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "trackball_firmware/qmk/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup QMK
+        run: |
+          export QMK_HOME='~/qmk_firmware'
+          python3 -m pip install --user qmk
+          qmk setup -y
+
+      - name: Copy local firmware files
+        run: |
+          cp -r $GITHUB_WORKSPACE/trackball_firmware/qmk/* ~/qmk_firmware/
+
+      - name: Build Ploopy Nano Firmware
+        run: |
+          qmk compile -kb ploopyco/trackball_nano/rev1_001 -km lkbm
+
+      - name: Copy generated firmware files to trackball_firmware
+        run: |
+          ls ~/qmk_firmware/.build/
+          cp -v ~/qmk_firmware/.build/ploopyco_trackball_nano_rev1_001_lkbm.hex $GITHUB_WORKSPACE/trackball_firmware/ploopy_nano.hex
+          echo "artifactPath=$GITHUB_WORKSPACE/trackball_firmware/ploopy_nano.hex" >> $GITHUB_ENV
+
+      - name: Get last commit message
+        id: last-commit
+        run: |
+          echo "message=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=\"%an\ \<%ae\>\")" >> $GITHUB_OUTPUT
+
+      - name: Commit updated firmware
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_author: ${{ steps.last-commit.outputs.author }}
+          commit_message: ${{ steps.last-commit.outputs.message }}
+          commit_options: '--amend --no-edit'
+          push_options: '--force-with-lease'
+          skip_fetch: true
+
+      - name: Artifact upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'firmware_ploopy_nano'
+          path: ${{ env.artifactPath }}
