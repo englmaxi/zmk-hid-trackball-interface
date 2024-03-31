@@ -27,7 +27,7 @@
 // is 55ms for a single tap.
 // https://recordsetter.com/world-record/index-finger-taps-minute/46066
 #define LED_CMD_TIMEOUT 25
-#define SCROLL_LOCK_TIMEOUT 600
+#define SCROLL_LOCK_TIMEOUT 200
 #define DELTA_X_THRESHOLD 60
 #define DELTA_Y_THRESHOLD 15
 

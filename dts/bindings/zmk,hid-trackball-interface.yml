@@ -10,15 +10,25 @@ properties:
   tog-scroll-bindings:
     type: phandles
     required: true
+    description: The binding that gets executed when the scroll-layer is toggled.
   cyc-dpi-bindings:
     type: phandles
     required: true
+    description: The binding that gets executed when the snipe-layer is toggled.
   scroll-layers:
     type: array
     default: []
+    description: The layer that execute tog-scroll-bindings when toggled.
   snipe-layers:
     type: array
     default: []
+    description: The layer that execute cyc-dpi-bindings when toggled.
   automouse-layer:
     type: int
     default: -1
+    description: The layer that should be enabled when the mouse is moved.
+  automouse-layer-timeout-ms:
+    type: int
+    default: 400
+    required: false
+    description: How many miliseconds of mouse inactivity are required before the automouse-layer is disabled.

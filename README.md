@@ -33,25 +33,27 @@ Then add the following to your keymap:
 ```
 
 This gives you access to the following predefined behaviors:
-- `&tb_cyc_dpi`: Cycles between the different DPI options of the trackball
-- `&tb_bootloader`: Reboots the trackball into the bootloader
-- `&tb_tg_scroll`: Toggles the trackball between move- and scroll-mode
-- `&tb_mo_scroll`: Toggles the trackball between move- and scroll-mode while the key is held down
-- `&tbs_mt 0 0`: `&tb_tg_scroll` on tap, `&tb_mo_scroll` on hold
+- `&tb_cyc_dpi`: Cycles between the different DPI options of the trackball.
+- `&tb_bootloader`: Reboots the trackball into the bootloader.
+- `&tb_tg_scroll`: Toggles the trackball between move- and scroll-mode.
+- `&tb_mo_scroll`: Toggles the trackball between move- and scroll-mode while the key is held down.
+- `&tbs_mt 0 0`: `&tb_tg_scroll` on tap, `&tb_mo_scroll` on hold.
 
 If you want to automatically change to a layer or enable scrolling and change DPI on specific layers, add this (with the desired layer inside `<>`) to your keymap:
 ```dtsi
 &hid_trackball_interface {
     automouse-layer = <1>;
+    automouse-layer-timeout-ms = <600>;
     scroll-layers = <2>;
     snipe-layers = <3>;
 };
 ```
 
-- If a layer is defined in `automouse-layer`, it will be enabled while the mouse is moving
+- If a layer is defined in `automouse-layer`, it will be enabled while the mouse is moving.
+- `automouse-layer-timeout-ms` defines how many miliseconds of mouse inactivity are required before the automouse-layer is disabled, the default value is `400` ms.
 - If any layers are defined in `scroll-layers`, `&tb_tg_scroll` is executed by default when one of those layers is enabled or disabled.
-- If any layers are defined in `snipe-layers`, `&tb_cyc_dpi` is executed by default when one of those layers is enabled or disabled
-  (this is only usefull if it cycles between two DPI settings only)
+- If any layers are defined in `snipe-layers`, `&tb_cyc_dpi` is executed by default when one of those layers is enabled or disabled.
+  (this is only usefull if it cycles between two DPI settings only).
 
 If you use a [Ploopy Nano](https://github.com/ploopyco/nano-trackball), you can use the modified firmware in [trackball_firmware](/trackball_firmware).
 Otherwise, you need to modify your firmware to listen to [specific HID indicator changes](#how-does-this-work?).
